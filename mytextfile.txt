@@ -1,0 +1,3 @@
+hallo dit is mijn txt file
+ik ben nu aan het kijken hoe het werkt
+hij moet dit dus zin voor zin printen
