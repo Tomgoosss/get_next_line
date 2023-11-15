@@ -6,22 +6,36 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:33:42 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/13 15:33:09 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/15 13:59:43 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+//reads my txt file
+char *gettxt(int fd)
+{
+	
+}
+// reads first line
+char *read_first_line()
+{
+	
+}
+
+// gets the remainder
+char	*get_a_line()
+{
+	
+}
+
+// main of all my extra functions
 char	*get_next_line(int fd)
 {
-	char *tempbuffer[BUFFER_SIZE];
-	ssize_t readbytes;
+	static char buffer;
+	char tempbuffer;
 	
-	readbytes = read(fd, tempbuffer, BUFFER_SIZE);
-	if (readbytes < 0)
-		return (-1);
-	// printf("%s", tempbuffer);
-	return tempbuffer;
+	tempbuffer = gettxt(fd);
 }
 
 int	main()
@@ -31,16 +45,41 @@ int	main()
 	char *str;
 
 	str = get_next_line(fd);
-	if (str == -1)
+	if (str == NULL)
 		printf("file could not read\n");
 
 	else
-		while (i < 25)
+		while (i < 2)
 		{
-			printf("my file =%s", str);
-			free(str);
+			printf("%d =%s\n", i, str);
 			i++;
 		}
+	free(str);
 	close(fd);
 	return (0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 1. reader functie
+
+// 2. line printer
+
+// 3. line part remover om remaining over te houden
+
+// 4. return (line)
