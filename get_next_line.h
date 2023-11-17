@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:36:16 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/16 18:46:18 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:18:01 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# define BUFFER_SIZE 500
+
+# ifndef BUFFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
 char	*get_next_line(int fd);
 int		ft_strlen(const char *s);
