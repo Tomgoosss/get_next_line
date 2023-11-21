@@ -6,37 +6,44 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:33:42 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/17 15:18:19 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:42:01 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int ft_newline(char *s) {
-	int i;
-	i = 0;
-	while (s[i]) {
-		if (s[i] == '\n') 
-			return (1);
-	i++;
-	}
-	return (0);
+char	*ft_free(char *buffer, char *buf)
+{
+	char	*temp;
+
+	temp = ft_strjoin(buffer, buf);
+	free(buffer);
+	// free(buf);
+	return (temp);
 }
 
-//reads my txt file
 char *readtxt(int fd, char *buffer)
 {
     ssize_t bytes_read;
     char *tempbuffer;
+	if (!buffer)
+		buffer = ft_calloc(1, sizeof(char));
 
-    tempbuffer = malloc((BUFFER_SIZE + 1));
-
+    tempbuffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
     bytes_read = 1;
     while (bytes_read > 0 && !ft_strchr(buffer, '\n'))
     {
-        bytes_read = read(fd, tempbuffer, BUFFER_SIZE);
-            tempbuffer[bytes_read] = '\0';
-            buffer = ft_strjoin(buffer, tempbuffer);
+		bytes_read = read(fd, tempbuffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{
+			free(buffer);
+			free(tempbuffer);
+			return (NULL);
+		}
+		if (bytes_read == 0)
+			break ;
+        tempbuffer[bytes_read] = '\0';
+        buffer = ft_free(buffer, tempbuffer);
     }
     free(tempbuffer);
     return buffer;
@@ -44,77 +51,95 @@ char *readtxt(int fd, char *buffer)
 
 char *read_first_line(char *tempbuffer)
 {
-	int i;
+	int	i;
+	int	o;
 	char *line;
-	
+
 	i = 0;
-	if (!tempbuffer) 
-		return NULL;
+	o = 0;
 	while (tempbuffer[i] && tempbuffer[i] != '\n')
 		i++;
-	line = malloc(i + 1);
-	i = 0;
-	while (tempbuffer[i] != '\n' && tempbuffer[i])
-	{
-		line[i] = tempbuffer[i];
+	if (tempbuffer[i] == '\n')
 		i++;
+	line = malloc(i + 1);
+	if (!line)
+	{
+		free(tempbuffer);
+		return (NULL);
+	}
+	while (o < i)
+	{
+		line[o] = tempbuffer[o];
+		o++;
 	}
 	line[i] = '\0';
 	return(line);
 }
 
-// gets the remainder
 char	*get_rem(char *buffer)
 {
-		int i = 0;
-		int j = 0;
+		int i;
+		int j;
+		char *tempbuffer;
+
+		i = 0;
+		j = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (buffer[i] == '\n') 
+	if (buffer[i] == '\n' ) 
 		i++;
-	char *tempbuffer = malloc(ft_strlen(buffer) - i + 1);
-	if(!tempbuffer) 
+	tempbuffer = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
+	if(!tempbuffer)
+	{
+		free(buffer);
 		return NULL;
+	}
 	while (buffer[i]) 
 	{
 		tempbuffer[j] = buffer[i];
 		i++;
 		j++;
 	}
-	tempbuffer[j] = '\0';
 	free(buffer);
+	tempbuffer[j] = '\0';
 	return(tempbuffer);
 }
 
 // main of all my extra functions
 char	*get_next_line(int fd)
 {
-	static char *buffer;
+	static char *buffer = NULL;
 	char *tempbuffer;
 	
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return(NULL);
 	buffer = readtxt(fd, buffer);
+	if (buffer == NULL || buffer[0] == '\0')
+		return(NULL);
 	tempbuffer = read_first_line(buffer);
-	// printf("test tempbuffer =%s\n",tempbuffer);
 	buffer = get_rem(buffer);
+
 	return (tempbuffer);
 }
 
-int	main()
-{
-	int i = 0;
-	int fd = open("mytextfile.txt", O_RDONLY);
-	char *str;
-	if (str == NULL)
-		printf("file could not read\n");
+// int main()
+// {
+//     int i = 0;
+//     int fd = open("mytextfile.txt", O_RDONLY);
+//     char *str;
 
-	else
-		while (i < 7)
-		{
-			str = get_next_line(fd);
-			printf("%d =%s\n", i, str);
-			i++;
-		}
-	free(str);
-	close(fd);
-	return (0);
-}
+//     while (i < 10)
+//     {
+//         str = get_next_line(fd);
+//         if (str == NULL)
+//         {
+//             // Handle read error
+//             break;
+//         }
+//         printf("%d = %s\n", i, str);
+//         free(str);
+//         i++;
+//     }
+//     close(fd);
+//     return 0;
+// }
