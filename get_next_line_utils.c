@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:33:39 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/28 14:12:08 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:48:45 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-#include "get_next_line.h"
-
 
 int	ft_nlcheck(char	*str)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tomgoossens <tomgoossens@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:33:42 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/28 14:29:31 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:39:21 by tomgoossens      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char *readtxt(int fd, char *buffer)
 		{
         	tempbuffer[bytes_read] = '\0';
        		buffer = ft_strjoin(buffer, tempbuffer);
-			if (!buffer)
+			if(!buffer)
 				return(ft_free2(&tempbuffer));
 		}
     }
@@ -60,7 +60,7 @@ char *read_first_line(char *tempbuffer)
 		i++;
 	line = malloc(i + 1);
 	if (!line)
-		return(ft_free2(&tempbuffer));
+		return(NULL);
 	while (o < i)
 	{
 		line[o] = tempbuffer[o];
@@ -72,9 +72,9 @@ char *read_first_line(char *tempbuffer)
 
 char	*get_rem(char *buffer)
 {
-		int i;
-		int j;
-		char *tempbuffer;
+		int		i;
+		int		j;
+		char	*tempbuffer;
 
 		i = 0;
 		j = 0;
@@ -85,10 +85,8 @@ char	*get_rem(char *buffer)
 	if(buffer[i] == '\0')
 		return(ft_free2(&buffer));
 	tempbuffer = malloc(ft_strlen(buffer) - i + 1);
-	if(!tempbuffer)
-	{
-		return(ft_free2(&buffer));
-	}
+		if(!tempbuffer)
+			return(ft_free2(&buffer));
 	while (buffer[i])
 		tempbuffer[j++] = buffer[i++];
 	ft_free2(&buffer);
@@ -98,8 +96,8 @@ char	*get_rem(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char *buffer = 0;
-	char *tempbuffer;
+	static char	*buffer = 0;
+	char		*tempbuffer;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return(NULL);
@@ -117,10 +115,10 @@ char	*get_next_line(int fd)
 // int main()
 // {
 //     int i = 0;
-//     int fd = open("mytextfile.txt", O_RDONLY);
+//     int fd = open("get_next_line.c", O_RDONLY);
 //     char *str;
 
-//     while (i < 10)
+//     while (i < 40)
 //     {
 //         str = get_next_line(fd);
 //         if (str == NULL)
