@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:36:16 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/21 10:44:15 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:57:34 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 
 char	*get_next_line(int fd);
 int		ft_strlen(const char *s);
-char	*ft_strchr(char *s, int c);
-char	*ft_strlcpy(char *dest, char *src, size_t size);
 char	*ft_strjoin(char *s1, char *s2);
-void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_free2(char **line);
+int		ft_nlcheck(char	*str);
 #endif
