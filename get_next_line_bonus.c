@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:33:42 by tgoossen          #+#    #+#             */
-/*   Updated: 2023/11/29 11:45:06 by tgoossen         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:52:01 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_free2(char **line)
 {
@@ -93,39 +93,17 @@ char	*get_rem(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer = 0;
+	static char	*buffer[1024];
 	char		*tempbuffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = readtxt(fd, buffer);
-	if (buffer == NULL)
+	buffer[fd] = readtxt(fd, buffer[fd]);
+	if (buffer[fd] == NULL)
 		return (NULL);
-	tempbuffer = read_first_line(buffer);
+	tempbuffer = read_first_line(buffer[fd]);
 	if (!tempbuffer)
-		return (ft_free2(&buffer));
-	buffer = get_rem(buffer);
+		return (ft_free2(&buffer[fd]));
+	buffer[fd] = get_rem(buffer[fd]);
 	return (tempbuffer);
 }
-
-// int main()
-// {
-//     int i = 0;
-//     int fd = open("get_next_line.c", O_RDONLY);
-//     char *str;
-
-//     while (i < 40)
-//     {
-//         str = get_next_line(fd);
-//         if (str == NULL)
-//         {
-//             // Handle read error
-//             break;
-//         }
-//         printf("%d = %s\n", i, str);
-//         free(str);
-//         i++;
-//     }
-//     close(fd);
-//     return 0;
-// }
